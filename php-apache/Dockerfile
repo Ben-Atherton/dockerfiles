@@ -8,10 +8,16 @@ RUN apt-get update \
   libfreetype6-dev \
   libjpeg62-turbo-dev \
   libpng-dev \
+  # needed for zip
+  zip \
+  libzip-dev \
+  # needed for imagick 
+  libmagickwand-dev \
+  && pecl install imagick && docker-php-ext-enable imagick \
   && rm -rf /var/lib/apt/lists/*
 
 # Install dependencies for WordPress
-RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli && docker-php-ext-install opcache && docker-php-ext-enable opcache && docker-php-ext-install pdo_mysql && docker-php-ext-enable pdo_mysql
+RUN docker-php-ext-install mysqli opcache pdo_mysql zip exif
 
 # Install GD
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
