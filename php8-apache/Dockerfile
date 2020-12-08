@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8.0-apache
 LABEL maintainer "Ben Atherton <ben@benatherton.com>"
 
 # Packages
