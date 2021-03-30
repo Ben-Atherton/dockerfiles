@@ -24,3 +24,6 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
   && docker-php-ext-install -j "$(nproc)" gd
 
 RUN a2enmod rewrite
+
+RUN echo "ServerTokens Prod\n" >> /etc/apache2/apache2.conf
+RUN echo "ServerSignature Off\n" >> /etc/apache2/apache2.conf
