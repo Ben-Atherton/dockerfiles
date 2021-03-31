@@ -10,7 +10,7 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 # Copy apache vhost file to proxy php requests to php-fpm container
-COPY defaulthost.apache.conf /usr/local/apache2/conf/defaulthost.apache.conf
+ADD https://raw.githubusercontent.com/Ben-Atherton/dockerfiles/master/apache/defaulthost.apache.conf /usr/local/apache2/conf/defaulthost.apache.conf
 RUN echo "Include /usr/local/apache2/conf/defaulthost.apache.conf" \
     >> /usr/local/apache2/conf/httpd.conf
 
