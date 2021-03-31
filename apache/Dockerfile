@@ -10,6 +10,8 @@ RUN apt-get update \
   modsecurity-crs \
   && rm -rf /var/lib/apt/lists/*
 
+ADD https://raw.githubusercontent.com/Ben-Atherton/dockerfiles/master/apache/security2.conf /etc/apache2/mods-available/security2.conf
+
 # Copy apache vhost file to proxy php requests to php-fpm container
 ADD https://raw.githubusercontent.com/Ben-Atherton/dockerfiles/master/apache/defaulthost.apache.conf /usr/local/apache2/conf/defaulthost.apache.conf
 RUN echo "Include /usr/local/apache2/conf/defaulthost.apache.conf" \
