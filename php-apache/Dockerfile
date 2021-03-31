@@ -11,6 +11,9 @@ RUN apt-get update \
   # needed for zip
   zip \
   libzip-dev \
+  # needed for ModSecurity & OWASP ModSecurity CRS
+  libmodsecurity3 \
+  modsecurity-crs \
   # needed for imagick 
   libmagickwand-dev \
   && pecl install imagick && docker-php-ext-enable imagick \
@@ -24,6 +27,11 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
   && docker-php-ext-install -j "$(nproc)" gd
 
 RUN a2enmod rewrite
+
+RUN a2enmod security2
+RUN cp /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf
+# Enable ModSecurity blocking rules
+RUN sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine on/' /etc/modsecurity/modsecurity.conf
 
 RUN echo "ServerTokens Prod\n" >> /etc/apache2/apache2.conf
 RUN echo "ServerSignature Off\n" >> /etc/apache2/apache2.conf
