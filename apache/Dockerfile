@@ -9,3 +9,6 @@ RUN apk update; \
 ADD https://raw.githubusercontent.com/Ben-Atherton/dockerfiles/master/apache/defaulthost.apache.conf /usr/local/apache2/conf/defaulthost.apache.conf
 RUN echo "Include /usr/local/apache2/conf/defaulthost.apache.conf" \
     >> /usr/local/apache2/conf/httpd.conf
+
+RUN echo "ServerTokens Prod\n" >> /usr/local/apache2/conf/httpd.conf
+RUN echo "ServerSignature Off\n" >> /usr/local/apache2/conf/httpd.conf
