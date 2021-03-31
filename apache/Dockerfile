@@ -1,9 +1,10 @@
-FROM httpd:2.4.46
+FROM debian:buster
 LABEL maintainer "Ben Atherton <ben@benatherton.com>"
 
 # Packages
 RUN apt-get update \
   && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+  apache2 \
   # needed for ModSecurity & OWASP ModSecurity CRS
   libapache2-mod-security2 \
   modsecurity-crs \
