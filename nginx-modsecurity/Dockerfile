@@ -1,4 +1,4 @@
-FROM owasp/modsecurity:latest
+FROM benatherton/modsecurity:latest
 
 RUN set -ex; \
     mkdir /etc/nginx/modsec; \ 
