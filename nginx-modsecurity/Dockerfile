@@ -1,4 +1,4 @@
-FROM owasp/modsecurity:3.0.4
+FROM owasp/modsecurity:latest
 
 RUN set -ex; \
     mkdir /etc/nginx/modsec; \ 
