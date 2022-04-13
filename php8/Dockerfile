@@ -1,4 +1,4 @@
-FROM php:8.1.1-fpm
+FROM php:8.1-fpm
 LABEL maintainer "Ben Atherton <ben@benatherton.com>"
 
 # Packages
