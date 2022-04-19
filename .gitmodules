@@ -1,0 +1,3 @@
+[submodule "nginx-modsecurity-crs/etc/modsecurity/crs"]
+	path = nginx-modsecurity-crs/etc/modsecurity/crs
+	url = https://github.com/coreruleset/coreruleset.git
