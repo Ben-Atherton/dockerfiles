@@ -17,7 +17,10 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 # Install dependencies for WordPress
-RUN docker-php-ext-install mysqli opcache pdo_mysql zip exif
+RUN docker-php-ext-install mysqli opcache pdo_mysql zip exif intl
+
+# Install Intl
+RUN docker-php-ext-configure intl
 
 # Install GD
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
