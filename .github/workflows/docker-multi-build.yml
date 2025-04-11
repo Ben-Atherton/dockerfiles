@@ -1,0 +1,27 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker images for each folder
+        run: |
+          for dir in */; do
+            folder=${dir%/}
+            echo "Building image for $folder"
+            docker build -t benatherton/$folder ./$folder
+            docker push benatherton/$folder
+          done
