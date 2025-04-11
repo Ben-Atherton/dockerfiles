@@ -11,17 +11,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          install: true
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push Docker images for each folder
+      - name: Build and push multi-platform Docker images
         run: |
           for dir in */; do
             folder=${dir%/}
-            echo "Building image for $folder"
-            docker build -t benatherton/$folder ./$folder
-            docker push benatherton/$folder
+            echo "Building and pushing benatherton/$folder for linux/amd64, linux/arm64"
+            docker buildx build \
+              --platform linux/amd64,linux/arm64 \
+              --push \
+              -t benatherton/$folder \
+              ./$folder
           done
