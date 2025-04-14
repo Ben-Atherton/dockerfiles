@@ -2,26 +2,27 @@
 FROM php:8.4.6-fpm-alpine3.21
 LABEL maintainer="Ben Atherton <ben@benatherton.com>"
 
-# Install system dependencies
+# Install runtime dependencies
 RUN apk add --no-cache \
     freetype-dev \
     libjpeg-turbo-dev \
     libpng-dev \
     libzip-dev \
-    imagemagick-dev \
     imagemagick \
+    imagemagick-dev \
+    icu-dev \
+    curl \
+    bash
+
+# Install build dependencies, build extensions, then remove build deps
+RUN apk add --no-cache --virtual .build-deps \
     git \
     g++ \
     make \
     autoconf \
-    icu-dev \
-    zlib-dev \
     libtool \
-    curl \
-    bash
-
-# Install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    zlib-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j"$(nproc)" \
         gd \
         mysqli \
@@ -29,17 +30,16 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
         pdo_mysql \
         zip \
         exif \
-        intl
-
-# Install imagick extension from source
-RUN git clone --depth 1 https://github.com/Imagick/imagick.git /tmp/imagick \
+        intl \
+    && git clone --depth 1 https://github.com/Imagick/imagick.git /tmp/imagick \
     && cd /tmp/imagick \
     && phpize \
     && ./configure \
     && make -j"$(nproc)" \
     && make install \
     && docker-php-ext-enable imagick \
-    && rm -rf /tmp/imagick
+    && rm -rf /tmp/imagick \
+    && apk del .build-deps
 
 # Install WP-CLI
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
