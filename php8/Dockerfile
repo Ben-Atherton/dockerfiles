@@ -1,5 +1,5 @@
 # Build using docker buildx build . --platform linux/amd64,linux/arm64 -t benatherton/php8 --push
-FROM php:8.4.6-fpm-alpine3.21
+FROM php:8.4.10-fpm-alpine3.22
 LABEL maintainer="Ben Atherton <ben@benatherton.com>"
 
 # Install runtime dependencies
